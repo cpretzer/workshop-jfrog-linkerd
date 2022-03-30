@@ -2,8 +2,8 @@ resources:
   - name: petclinic_repo
     type: GitRepo
     configuration:
-      path: mjmckay/workshop-jfrog-linkerd
-      gitProvider: MyRepo
+      path: cpretzer/workshop-jfrog-linkerd
+      gitProvider: GitHub
       branches:
         include: main
       buildOn:
@@ -18,17 +18,17 @@ pipelines:
         type: image
         image:
           custom:
-            name: mjmckay.jfrog.io/default-docker-virtual/alpine/k8slinkerd
+            name: cpretzer.jfrog.io/linkerd-docker-local/alpine/k8slinkerd
             tag: v0.1.0
             autoPull: true
-            registry: MyArtifactory
-            sourceRepository: default-docker-virtual
+            registry: artifactory
+            sourceRepository: linkerd-docker-local
     steps:
       - name: kubernetes_deploy
         type: Bash
         configuration:
           integrations:
-            - name: MyCluster
+            - name: civo_k8s
           inputResources:
             - name: petclinic_repo
         execution:
